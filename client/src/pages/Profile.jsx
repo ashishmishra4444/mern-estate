@@ -153,7 +153,9 @@ const Profile = () => {
         console.log(data.message);
         return;
       }
-      setUserListings((prev)=>prev.filter((listing)=>listing._id!==listingId));
+      setUserListings((prev) =>
+        prev.filter((listing) => listing._id !== listingId)
+      );
     } catch (error) {
       console.log(error.message);
     }
@@ -280,9 +282,12 @@ const Profile = () => {
                 >
                   Delete
                 </button>
-                <button className="text-green-700 uppercase p-1 border rounded shadow-md w-full hover:shadow-green-700">
-                  Edit
-                </button>
+                <Link
+                  to={`/update-listing/${listing._id}`}
+                  className="text-green-700 border rounded shadow-md w-full text-center hover:shadow-green-700"
+                >
+                  <button className="uppercase p-1">Edit</button>
+                </Link>
               </div>
             </div>
           ))}
