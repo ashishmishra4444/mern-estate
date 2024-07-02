@@ -14,7 +14,8 @@ import {
   FaParking,
   FaShare,
 } from "react-icons/fa";
-// import Contact from '../components/Contact';
+import { useSelector } from "react-redux";
+import Contact from "../components/Contact";
 
 // https://sabe.io/blog/javascript-format-numbers-commas#:~:text=The%20best%20way%20to%20format,format%20the%20number%20with%20commas.
 
@@ -25,7 +26,9 @@ const Listing = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [contact, setContact] = useState(false);
   const params = useParams();
+  const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -121,7 +124,7 @@ const Listing = () => {
               </p>
               {listing.offer && (
                 <p className="bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md">
-                  ${+listing.regularPrice - +listing.discountPrice} discount
+                  $ {+listing.regularPrice - +listing.discountPrice} discount
                 </p>
               )}
             </div>
@@ -145,17 +148,22 @@ const Listing = () => {
               </li>
               <li className="flex gap-1  items-center whitespace-nowrap ">
                 <FaParking className="text-lg" />
-                 {
-                    listing.parking ?  "Parking Spot" : "No Parking"
-                 }
+                {listing.parking ? "Parking Spot" : "No Parking"}
               </li>
               <li className="flex gap-1  items-center whitespace-nowrap ">
                 <FaChair className="text-lg" />
-                 {
-                    listing.furnished ?  "Furnished" : "Not furnished"
-                 }
+                {listing.furnished ? "Furnished" : "Not furnished"}
               </li>
             </ul>
+            {currentUser && listing.userRef !== currentUser._id && !contact && (
+              <button
+                onClick={() => setContact(true)}
+                className="bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3 "
+              >
+                Contact Landlord
+              </button>
+            )}
+            {contact && <Contact listing={listing} />}
           </div>
         </div>
       )}
