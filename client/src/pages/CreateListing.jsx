@@ -34,7 +34,6 @@ const CreateListing = () => {
   const navigate = useNavigate();
   console.log(formData);
 
-
   const handleImageSubmit = () => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
       setUploading(true);
@@ -51,7 +50,7 @@ const CreateListing = () => {
           });
           setImageUploadError(false);
           setUploading(false);
-          setError(false)
+          setError(false);
         })
         .catch((err) => {
           setImageUploadError("Failed to upload image (2mb max per image)");
@@ -132,7 +131,7 @@ const CreateListing = () => {
       if (+formData.regularPrice < +formData.discountPrice)
         return setError("Discount price must be lower than regular price");
       setLoading(true);
-      setError(false)
+      setError(false);
       const res = await fetch("/api/listing/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -146,7 +145,7 @@ const CreateListing = () => {
       if (data.status === false) {
         setError(data.message);
       }
-      navigate(`/listing/${data._id}`)
+      navigate(`/listing/${data._id}`);
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -283,7 +282,10 @@ const CreateListing = () => {
               />
               <div className="flex flex-col items-center">
                 <p>Regular Price</p>
-                <span className="text-xs">($ / month)</span>
+
+                {formData.type === "rent" && (
+                  <span className="text-xs">($ / month)</span>
+                )}
               </div>
             </div>
             {formData.offer && (
@@ -300,7 +302,10 @@ const CreateListing = () => {
                 />
                 <div className="flex flex-col items-center">
                   <p>Discounted price</p>
-                  <span className="text-xs">($ / month)</span>
+
+                  {formData.type === "rent" && (
+                    <span className="text-xs">($ / month)</span>
+                  )}
                 </div>
               </div>
             )}
@@ -354,7 +359,10 @@ const CreateListing = () => {
                 </button>
               </div>
             ))}
-          <button disabled={loading || uploading} className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
+          <button
+            disabled={loading || uploading}
+            className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+          >
             {loading ? "Creating..." : "Create Listing"}
           </button>
           {error && <p className="text-red-700 text-sm">{error}</p>}
