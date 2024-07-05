@@ -9,7 +9,6 @@ import {
   FaBath,
   FaBed,
   FaChair,
-  FaMapMarkedAlt,
   FaMapMarkerAlt,
   FaParking,
   FaShare,
@@ -73,7 +72,7 @@ const Listing = () => {
         <div>
           <Swiper
             navigation
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
+            autoplay={{ delay: 2500, disableOnInteraction: false }}
           >
             {listing.imageUrls.map((url) => (
               <SwiperSlide key={url}>
